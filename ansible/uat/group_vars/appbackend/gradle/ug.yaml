@@ -1,14 +1,14 @@
 ---
 # Corporate Proxy Configuration
 proxy_config:
-  sc-proxy:
-    # Seychelles Proxy
-    no_proxy: "localhost,127.0.0.1,172.23.12.160,172.25.193.19"
-    proxy_host: "172.23.12.211"
+  ug-proxy:
+    # Uganda Proxy
+    no_proxy: "localhost,127.0.0.1,192.23.12.160,192.25.193.19"
+    proxy_host: "192.23.12.211"
     proxy_port: "4145"
-    proxy_username: "2367604"
-    proxy_password: perl%40llp1
-    yum_proxy_password: perl@llp1
+    proxy_username: "1234567"
+    proxy_password: amu%40lky
+    yum_proxy_password: amu@lky
     proxy_user: aessos
 
 corp_http_proxy: 1

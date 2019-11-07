@@ -1,14 +1,14 @@
 ---
 # Corporate Proxy Configuration
 proxy_config:
-  ng-proxy:
-    # Nigeria Proxy
-    no_proxy: "localhost,127.0.0.1,172.23.3.220,172.23.3.221,172.23.3.222,172.23.3.223,172.23.3.224,172.23.7.76,172.23.7.75,172.23.12.160,172.24.3.29,172.24.3.30"
-    proxy_host: "172.23.12.211"
+  ug-proxy:
+    # Uganda Proxy
+    no_proxy: "localhost,127.0.0.1,192.23.3.220,192.23.3.221,192.23.3.222,192.23.3.223,192.23.3.224,192.23.7.76,192.23.7.75,192.23.12.160,192.24.3.29,192.24.3.30"
+    proxy_host: "192.23.12.211"
     proxy_port: "4145"
-    proxy_username: "2367601"
-    proxy_password: airtel%23kube1
-    yum_proxy_password: airtel#kube1
+    proxy_username: "1234567"
+    proxy_password: amu%40lky
+    yum_proxy_password: amu@lky
     proxy_user: aessos
 
 corp_http_proxy: 1
@@ -25,7 +25,7 @@ cmsservice: 1
 
 # Elastic-search Configuration
 td_agent_index_name: Ng-Logs.cms-service
-td_agent_es_host: "172.23.7.75"
+td_agent_es_host: "192.23.7.75"
 td_agent_es_port: "9200"
 td_agent_es_user: fluentd
 td_agent_es_password: fluentd

@@ -5,4 +5,4 @@
   roles:
     - role: gradle
   vars_files:
-    - "{{ env }}/group_vars/{{ application }}/{{ service }}/{{ opco }}.yaml"
+    - "{{ env }}/group_vars/{{ application }}/{{ service }}/{{ opco }}.yml"
