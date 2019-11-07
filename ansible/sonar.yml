@@ -1,0 +1,7 @@
+---
+- name: install and configure sonar to all nodes
+  hosts: "{{ host }}"
+  remote_user: aessos
+  become: true
+  roles:
+      - { role: osm_sonar, tags: ["sonar"] }

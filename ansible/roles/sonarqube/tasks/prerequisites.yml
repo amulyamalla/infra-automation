@@ -1,0 +1,24 @@
+---
+- name: Increasing vm.max_map_count
+  sysctl:
+    name: "{{item.name}}"
+    value: "{{item.value}}"
+    state: present
+  with_items:
+    - { name: 'vm.max_map_count', value: '262144'}
+    - { name: 'fs.file-max', value: '65536'}
+
+- name: configure system settings, file descriptors and number of threads
+  pam_limits:
+    domain: "*" 
+    limit_type: "{{item.limit_type}}"
+    limit_item: "{{item.limit_item}}"
+    value: "{{item.value}}"
+  with_items:
+    - { limit_type: '-', limit_item: 'nofile', value: 65536 }
+    - { limit_type: '-', limit_item: 'nproc', value: 2048 }
+
+
+- name: reload settings from all system configuration files
+  command: sysctl --system
+...

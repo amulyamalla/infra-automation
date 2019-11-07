@@ -1,0 +1,63 @@
+<source>
+  @id {{ td_agent_app_name }}.log
+  @type tail
+  path "{{ td_agent_log_dir }}/{{ td_agent_log_file }}.log"
+  pos_file /var/log/td-agent/{{ td_agent_app_name }}.log.pos
+  tag raw.{{ td_agent_app_name }}.*
+  read_from_head true
+  refresh_interval 10s
+  <parse>
+    @type multiline_grok
+    grok_pattern %{GREEDYDATA:log}
+    multiline_start_regexp /^[^\s]/
+  </parse>
+</source>
+
+<match raw.{{ td_agent_app_name }}.**>
+  @id raw.{{ td_agent_app_name }}
+  @type detect_exceptions
+  remove_tag_prefix raw
+  message log
+  stream stream
+  multiline_flush_interval 5
+  max_bytes 500000
+  max_lines 1000
+</match>
+
+<match {{ td_agent_app_name }}.**>
+  @id {{ td_agent_app_name }}
+  @type elasticsearch
+  @log_level info
+  type_name fluentd
+  include_tag_key true
+  include_timestamp true
+  time_key_exclude_timestamp false
+  host {{ td_agent_es_host }}
+  port {{ td_agent_es_port }}
+{% if es_ssl is defined %}
+  scheme https
+  ssl_version TLSv1_2
+  ssl_verify false
+{% endif %}
+  user {{ td_agent_es_user }}
+  password {{ td_agent_es_password }}
+  logstash_format false
+  index_name {{ td_agent_index_name }}.%Y-%m-%d
+  reconnect_on_error true
+  reload_on_failure true
+  reload_connections false
+  <buffer tag, time>
+    @type file
+    path /var/log/td-agent/buffer/td/{{ td_agent_app_name }}.system.buffer
+    flush_mode interval
+    retry_type exponential_backoff
+    flush_thread_count 20
+    flush_interval 5s
+    retry_forever true
+    retry_max_interval 30
+    chunk_limit_size 10M
+    queue_limit_length 8
+    overflow_action block
+    timekey 0.1h
+  </buffer>
+</match>

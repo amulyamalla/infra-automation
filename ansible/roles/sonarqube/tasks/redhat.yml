@@ -1,0 +1,39 @@
+---
+- name: Download and install unzip
+  yum:
+    name: ['unzip', 'libselinux-python']
+    state: present
+  register: task_result
+  until: task_result is succeeded
+  retries: 5
+  delay: 5
+
+- name: Creating sonarqube user
+  user: 
+    name: sonarqube 
+    system: yes
+    # create_home in ansible 2.5 or above
+    createhome: no
+    shell: /bin/false
+
+- name: Download Sonar Binary
+  get_url:
+    url: "{{ sonarqube_binary }}"
+    dest: "/tmp/sonarqube-{{ version }}.zip"
+    validate_certs: true
+
+- name: Unzip Sonar
+  unarchive:
+    src: "/tmp/sonarqube-{{ version }}.zip"
+    dest: /usr/local/bin/
+    copy: false
+    creates: /usr/local/sonarqube/COPYING
+    owner: sonarqube
+    group: root
+    mode: 0770
+
+- name: Move Sonar into place
+  command: >
+    mv /usr/local/bin/sonarqube-{{ version }} /usr/local/bin/sonarqube
+    creates=/usr/local/bin/sonarqube/COPYING
+...

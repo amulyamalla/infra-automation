@@ -1,0 +1,33 @@
+---
+# Corporate Proxy Configuration
+proxy_config:
+  ke-proxy:
+    # Kenya Proxy
+    no_proxy: "localhost,127.0.0.1,172.23.3.220,172.23.3.221,172.23.3.222,172.23.3.223,172.23.3.224,172.23.7.76,172.23.7.75,172.23.12.160,172.23.7.107,172.23.7.108,172.23.7.109,172.23.7.105,172.23.7.106,172.23.7.102,172.23.7.103,172.23.7.104,172.23.7.138,172.23.7.139,172.23.7.225,172.23.7.163"
+    proxy_host: "172.23.12.211"
+    proxy_port: "4145"
+    proxy_username: "2367601"
+    proxy_password: airtel%23kube1
+    yum_proxy_password: airtel#kube1
+    proxy_user: aessos
+
+corp_http_proxy: 1
+corp_https_proxy: 1
+corp_yum_http_proxy: 1
+corp_yum_https_proxy: 1
+corp_no_proxy: 1
+
+# Log Configuration
+td_run_as_user: mongod 
+td_agent_log_dir: "/var/log/mongodb"
+td_agent_log_file: mongod
+td_agent_app_name: mongo
+mongo: 1
+
+# Elastic-search Configuration
+td_agent_index_name: Ke-Logs.mongo
+td_agent_es_host: "172.23.7.75"
+td_agent_es_port: "9200"
+td_agent_es_user: fluentd
+td_agent_es_password: fluentd
+es_ssl: 1

@@ -1,0 +1,19 @@
+#
+# {{ ansible_managed }}
+#
+{% if corp_http_proxy is defined %}
+export http_proxy="http://{{ proxy_config[proxy_name].proxy_username }}:{{ proxy_config[proxy_name].proxy_password }}@{{ proxy_config[proxy_name].proxy_host }}:{{ proxy_config[proxy_name].proxy_port }}"
+export HTTP_PROXY="http://{{ proxy_config[proxy_name].proxy_username }}:{{ proxy_config[proxy_name].proxy_password }}@{{ proxy_config[proxy_name].proxy_host }}:{{ proxy_config[proxy_name].proxy_port }}"
+{% endif %}
+{% if corp_https_proxy is defined %}
+export https_proxy="https://{{ proxy_config[proxy_name].proxy_username }}:{{ proxy_config[proxy_name].proxy_password }}@{{ proxy_config[proxy_name].proxy_host }}:{{ proxy_config[proxy_name].proxy_port }}"
+export HTTPS_PROXY="https://{{ proxy_config[proxy_name].proxy_username }}:{{ proxy_config[proxy_name].proxy_password }}@{{ proxy_config[proxy_name].proxy_host }}:{{ proxy_config[proxy_name].proxy_port }}"
+{% endif %}
+{% if corp_ftp_proxy is defined %}
+export ftp_proxy="ftp://{{ proxy_config[proxy_name].proxy_username }}:{{ proxy_config[proxy_name].proxy_password }}@{{ proxy_config[proxy_name].proxy_host }}:{{ proxy_config[proxy_name].proxy_port }}"
+export FTP_PROXY="ftp://{{ proxy_config[proxy_name].proxy_username }}:{{ proxy_config[proxy_name].proxy_password }}@{{ proxy_config[proxy_name].proxy_host }}:{{ proxy_config[proxy_name].proxy_port }}"
+{% endif %}
+{% if corp_no_proxy is defined %}
+export no_proxy="{{ proxy_config[proxy_name].no_proxy }}"
+export NO_PROXY="{{ proxy_config[proxy_name].no_proxy }}"
+{% endif %}

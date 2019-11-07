@@ -1,0 +1,17 @@
+---
+client:
+  hosts:
+   - {{ es_hosts }} 
+  port: {{ es_port }}
+{% if es_ssl is defined %}
+  use_ssl: True
+  certificate: {{ es_curator_cert_dir }}/{{ es_curator_cert_file }}.pem
+  ssl_no_validate: False
+  http_auth: "{{ es_curator_user }}:{{ es_curator_password }}"
+{% endif %}
+  
+logging:
+  loglevel: INFO
+  logfile: "{{ curatorlogfile }}"
+  logformat: default
+  blacklist: ['elasticsearch', 'urllib3']

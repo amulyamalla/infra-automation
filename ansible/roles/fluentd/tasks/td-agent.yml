@@ -1,0 +1,27 @@
+---
+- name: Ensure libselinux-python on CentOS 7.x
+  yum: name=libselinux-python state=present update_cache=yes
+
+- name: Add TreasureData repository
+  template:
+    src: 'fluentd.repo.j2'
+    dest: '/etc/yum.repos.d/fluentd.repo'
+    mode: 0644
+    owner: root
+    group: root
+
+- name: Install td-agent package
+  yum:
+    name: 'td-agent'
+    state: present
+    update_cache: yes
+    enablerepo: treasuredata
+  when: td_agent_version is not defined
+
+- name: Install td-agent package with version
+  yum:
+    name: 'td-agent-{{ td_agent_version }}*'
+    state: present
+    update_cache: yes
+    enablerepo: treasuredata
+  when: td_agent_version is defined

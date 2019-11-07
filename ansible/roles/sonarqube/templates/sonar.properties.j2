@@ -1,0 +1,13 @@
+sonar.jdbc.username={{ sonarqube_username }}
+sonar.jdbc.password={{ sonarqube_password }}
+sonar.jdbc.url={{ db_url }}
+sonar.web.host={{ sonarqube_host }}
+sonar.web.javaAdditionalOpts=-server
+sonar.ce.javaOpts=-Xmx2G -Xms512m -XX:+HeapDumpOnOutOfMemoryError
+sonar.web.javaOpts=-Xmx2G -Xms512m -XX:+HeapDumpOnOutOfMemoryError
+sonar.search.javaAdditionalOpts=-Dbootstrap.system_call_filter=false
+sonar.path.logs={{ sonarqube_logpath }} 
+sonar.log.level={{ sonarqube_loglevel }}
+sonar.log.rollingPolicy= {{ sonarqube_log_rolling_policy }}
+sonar.log.maxFiles= {{ sonarqube_log_max_files }}
+sonar.forceAuthentication={{ sonarqube_force_authentication }}

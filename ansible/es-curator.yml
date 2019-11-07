@@ -1,0 +1,7 @@
+---
+- hosts: "{{ host_group }}"
+  become: true
+  roles:
+    - { role: curator, tags: [ 'curator' ] }
+  vars_files:
+    - "{{ env }}/group_vars/{{ service }}/curator.yml"

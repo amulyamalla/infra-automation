@@ -1,0 +1,6 @@
+- name: Transfer and execute docker images clean script.
+  hosts: all
+  tasks:
+
+    - name: Copy and Execute the docker images clean script
+      script: docker-images-clean.sh

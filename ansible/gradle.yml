@@ -1,0 +1,8 @@
+---
+- name: Deploy Gradle 
+  hosts: "{{host_group}}-{{application}}_{{opco}}"
+  become: true
+  roles:
+    - role: gradle
+  vars_files:
+    - "{{ env }}/group_vars/{{ application }}/{{ service }}/{{ opco }}.yaml"

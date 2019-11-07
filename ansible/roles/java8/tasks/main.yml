@@ -1,0 +1,24 @@
+---
+- name: Update and upgrade yum packages
+  yum:
+    name: '*'
+    state: latest
+  become: true
+  tags: install
+
+- name: install java
+  yum:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - "{{ java_packages }}"
+
+- name: Set JAVA_HOME if configured.
+  template:
+    src: java_home.sh.j2
+    dest: /etc/profile.d/java_home.sh
+    mode: 0644
+  when: java_home is defined and java_home
+
+- name: Update Profile
+  shell: source /etc/profile 

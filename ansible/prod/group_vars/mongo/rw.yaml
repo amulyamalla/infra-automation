@@ -1,0 +1,33 @@
+---
+# Corporate Proxy Configuration
+proxy_config:
+  rw-proxy:
+    # Rwanda Proxy
+    no_proxy: "localhost,127.0.0.1,172.23.3.220,172.23.3.221,172.23.3.222,172.23.3.223,172.23.3.224,172.23.7.76,172.23.7.75,172.23.12.160,172.27.193.85,172.27.193.86,172.27.193.87,172.27.193.88,172.27.193.89,172.27.193.90,172.27.193.91,172.27.193.92,172.27.193.93,172.27.193.94,172.27.193.95,172.27.192.200,172.27.192.201,172.27.192.202"
+    proxy_host: "172.23.12.211"
+    proxy_port: "4145"
+    proxy_username: "2367601"
+    proxy_password: airtel%23kube1
+    yum_proxy_password: airtel#kube1
+    proxy_user: aessos
+
+corp_http_proxy: 1
+corp_https_proxy: 1
+corp_yum_http_proxy: 1
+corp_yum_https_proxy: 1
+corp_no_proxy: 1
+
+# Log Configuration
+td_run_as_user: mongod 
+td_agent_log_dir: "/var/log/mongodb"
+td_agent_log_file: mongod
+td_agent_app_name: mongo
+mongo: 1
+
+# Elastic-search Configuration
+td_agent_index_name: Rw-Logs.mongo
+td_agent_es_host: "172.23.7.75"
+td_agent_es_port: "9200"
+td_agent_es_user: fluentd
+td_agent_es_password: fluentd
+es_ssl: 1

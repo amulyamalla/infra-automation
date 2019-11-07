@@ -1,0 +1,140 @@
+---
+- include: td-agent.yml
+  when: ansible_os_family == 'RedHat'
+
+- name: Ensure Correct Permissions
+  file: 
+    path: /opt/td-agent 
+    state: directory 
+    owner: root
+    group: aessos 
+    mode: 0775
+    recurse: yes
+
+- name: Install Fluentd plugins
+  become: false
+  gem:
+    name: "{{ item.name }}"
+    version: "{{ item.version | default('') }}"
+    executable: /usr/sbin/td-agent-gem
+    state: present
+    user_install: no
+  with_items: "{{ td_agent_plugins | list }}"
+  notify: restart td-agent
+
+- name: Ensure Correct Permissions for Log Directory
+  file: 
+    path: "{{ td_agent_log_dir }}"
+    state: directory 
+    owner: root 
+    group: "{{ td_run_as_user }}"
+    mode: 0775 
+    recurse: yes
+
+- name: Ensure Correct Permissions for logfile
+  file:
+    path: "{{ td_agent_log_dir }}/{{ td_agent_log_file }}.log"
+    state: touch
+    owner: root
+    group: "{{ td_run_as_user }}"
+    mode: 0664
+
+- name: stop td-agent service, if running
+  systemd: name=td-agent state=stopped
+  ignore_errors: True
+
+- name: fluentd | create fluentd config directory
+  file:
+    path: "{{item}}"
+    state: directory
+    recurse: yes
+    owner: root
+    group: root
+    mode: 0775
+  with_items:
+    - "{{ td_config_dir }}"
+
+- name: Ensure appbackend is configured
+  template:
+    src: appbackend.conf.j2
+    dest: /etc/td-agent/conf.d/appbackend.conf
+    mode: 0644
+  when: appbackend is defined
+
+- name: Ensure pgpool is configured
+  template:
+    src: pgpool.conf.j2
+    dest: /etc/td-agent/conf.d/pgpool.conf
+    mode: 0644
+  when: pgpool is defined
+
+- name: Ensure postgres is configured
+  template:
+    src: postgres.conf.j2
+    dest: /etc/td-agent/conf.d/postgres.conf
+    mode: 0644
+  when: postgres is defined
+
+- name: Ensure mongo is configured
+  template:
+    src: mongo.conf.j2
+    dest: /etc/td-agent/conf.d/mongo.conf
+    mode: 0644
+  when: mongo is defined
+
+- name: Ensure redis is configured
+  template:
+    src: redis.conf.j2
+    dest: /etc/td-agent/conf.d/redis.conf
+    mode: 0644
+  when: redis is defined
+
+- name: Ensure orp service is configured
+  template:
+    src: orpservice.conf.j2
+    dest: /etc/td-agent/conf.d/orpservice.conf
+    mode: 0644
+  when: orpservice is defined
+
+- name: Ensure hbb portal is configured
+  template:
+    src: hbbportal.conf.j2
+    dest: /etc/td-agent/conf.d/hbbportal.conf
+    mode: 0644
+  when: hbbportal is defined
+
+- name: Ensure aoc is configured
+  template:
+    src: aoc.conf.j2
+    dest: /etc/td-agent/conf.d/aoc.conf
+    mode: 0644
+  when: aoc is defined
+
+- name: Ensure cms service is configured
+  template:
+    src: cmsservice.conf.j2
+    dest: /etc/td-agent/conf.d/cmsservice.conf
+    mode: 0644
+  when: cmsservice is defined
+
+- name: Ensure cms portal is configured
+  template:
+    src: cmsportal.conf.j2
+    dest: /etc/td-agent/conf.d/cmsportal.conf
+    mode: 0644
+  when: cmsportal is defined
+
+- name: copy td-agent.conf to fluentd server
+  copy: 
+    src: td-agent.conf 
+    dest: /etc/td-agent/td-agent.conf
+    mode: 0644
+  notify: restart td-agent
+
+- name: Start and enable td-agent
+  systemd:
+    daemon_reload: yes
+    state: started
+    name: "td-agent"
+    enabled: yes
+

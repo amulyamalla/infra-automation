@@ -1,0 +1,8 @@
+---
+- name: Deploy Fluentd 
+  hosts: "{{host_group}}-{{service}}_{{opco}}"
+  become: true
+  roles:
+    - role: fluentd
+  vars_files:
+    - "{{ env }}/group_vars/{{ service }}/{{ opco }}.yaml"

@@ -1,0 +1,52 @@
+---
+- name: Remove proxy settings at /etc/yum.conf
+  lineinfile: 
+    dest: /etc/yum.conf
+    regexp: "^proxy*"
+    state: absent
+
+- name: Add http_proxy to /etc/yum.conf if corp_yum_http_proxy is defined
+  lineinfile:
+    path: "/etc/yum.conf"
+    line: "proxy=http://{{ proxy_config[proxy_name].proxy_host }}:{{ proxy_config[proxy_name].proxy_port }}"
+    create: yes
+    state: present
+  when: corp_yum_http_proxy is defined
+
+- name: Add https_proxy to /etc/yum.conf if corp_yum_https_proxy is defined
+  lineinfile:
+    path: "/etc/yum.conf"
+    line: "proxy=https://{{ proxy_config[proxy_name].proxy_host }}:{{ proxy_config[proxy_name].proxy_port }}"
+    create: yes
+    state: present
+  when: corp_yum_https_proxy is defined
+
+- name: Add proxy username to /etc/yum.conf 
+  lineinfile:
+    path: "/etc/yum.conf"
+    line: "proxy_username={{ proxy_config[proxy_name].proxy_username }}"
+    create: yes
+    state: present
+
+- name: Add proxy password to /etc/yum.conf
+  lineinfile:
+    path: "/etc/yum.conf"
+    line: "proxy_password={{ proxy_config[proxy_name].yum_proxy_password }}"
+    create: yes
+    state: present
+
+- name: Remove proxy settings at /etc/profile.d/
+  file: 
+    path: /etc/profile.d/proxy.sh
+    state: absent
+
+- name: Configure proxy settings for OS (/etc/profile.d/proxy.sh)
+  template:
+    src: proxy.sh.j2
+    dest: /etc/profile.d/proxy.sh
+    owner: root 
+    group: "{{ proxy_config[proxy_name].proxy_user }}"
+    mode: 0644
+
+- name: Source profile
+  shell: su - "{{ proxy_config[proxy_name].proxy_user }}" -c 'source /etc/profile.d/proxy.sh'

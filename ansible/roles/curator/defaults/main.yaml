@@ -1,0 +1,11 @@
+---
+curator_version: 5.7.6
+curator_conf_dir: /opt/curator
+curatorlogfile: /var/log/curator/logs/curator_actions.log
+es_hosts: localhost
+es_port: 9200
+es_curator_cert_dir: []
+es_curator_cert_file: []
+es_curator_user: elastic
+es_curator_password: changeme
+oldindexcount: 7

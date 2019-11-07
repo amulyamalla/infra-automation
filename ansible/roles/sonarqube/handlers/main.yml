@@ -1,0 +1,12 @@
+---
+# handlers file for osm_sonar
+- name: restarting sonarqube
+  service:
+    name: sonarqube
+    state: restarted
+    enabled: yes
+
+- name: reload sonarqube
+  systemd:
+    daemon_reload: yes
+...

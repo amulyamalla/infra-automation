@@ -1,0 +1,30 @@
+---
+- name: Install Curator
+  pip: name=elasticsearch-curator
+       version={{ curator_version }}
+       state=present
+  tags: ['curator']
+
+- name: Create Curator Config Dir
+  file: path={{ curator_conf_dir }}/conf owner=root group=root recurse=yes state=directory mode=0755
+  tags: ['curator']
+
+- name: Create Curator Action Dir
+  file: path={{ curator_conf_dir }}/action owner=root group=root recurse=yes state=directory mode=0755
+  tags: ['curator']
+
+- name: Copy Curator Config files
+  template: src=escuratorconf.yml.j2 dest={{ curator_conf_dir }}/conf/escuratorconf.yml group=root mode=600
+  tags: ['curator_config']
+
+- name: Copy Curator Action files
+  template: src=escuratordata_action.yml.j2 dest={{ curator_conf_dir }}/action/escuratordata_action.yml group=root mode=600
+  tags: ['curator_config']
+
+- name: Create Curator Log Directory
+  file: path=/var/log/curator/logs owner=root group=root recurse=yes state=directory mode=0755
+  tags: ['curator']
+
+- name: Adding cron esdata everyday at 3:00pm index deletion
+  cron: name="Index deletion({{ oldindexcount }}) esdata everyday 3:00pm" minute=00 hour=15 user=root job="curator --config /opt/curator/conf/escuratorconf.yml /opt/curator/action/escuratordata_action.yml" cron_file=esindexdeletion
+  when: es_curator_cron is defined

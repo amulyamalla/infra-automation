@@ -1,0 +1,13 @@
+---
+# defaults file for osm_sonar
+version: "6.7.7"
+sonarqube_binary: "https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-{{ version }}.zip"
+sonarqube_username: "sonar"
+sonarqube_password: "sonardb"
+db_url: "jdbc:postgresql://172.23.19.54:30021/sonardb?useUnicode=true&characterEncoding=utf8&rewriteBatchedStatements=true&useConfigs=maxPerformance&useSSL=false"
+sonarqube_host: "0.0.0.0"
+sonarqube_logpath: "/var/log/sonarqube"
+sonarqube_loglevel: "INFO"
+sonarqube_log_rolling_policy: "size:10MB" 
+sonarqube_log_max_files: "10"
+sonarqube_force_authentication: "true"
