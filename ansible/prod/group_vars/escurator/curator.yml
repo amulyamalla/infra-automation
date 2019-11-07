@@ -2,7 +2,7 @@
 curator_version: 5.7.6
 es_hosts: "{{ groups['{{ host_group }}'] | map('extract', hostvars, ['ansible_host']) | join(',') }}"
 es_ssl: 1
-es_curator_cert_dir: "/etc/elasticsearch/kekeesbmonpzp01"
+es_curator_cert_dir: "/etc/elasticsearch/es-master-1"
 es_curator_cert_file: root-ca
 es_curator_user: curator
 es_curator_password: escurator
