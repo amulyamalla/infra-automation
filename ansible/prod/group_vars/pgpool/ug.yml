@@ -1,8 +1,8 @@
 # Corporate Proxy Cofiguration
 no_proxy: "localhost,127.0.0.1,192.23.3.220,192.23.3.221,192.23.3.222,192.23.3.223,192.23.3.224,192.23.7.76,192.23.7.75,192.23.12.160,192.27.98.48,192.27.98.52,192.27.98.57,192.27.98.161,192.27.98.162,192.27.98.163,192.27.98.164,192.27.98.165,192.27.98.166,192.27.98.167,192.27.98.168,192.27.98.40,192.27.98.41,192.27.98.42,192.27.98.44,192.27.98.45"
 proxy_host: "192.23.12.211"
-proxy_password: pro%23kube1
-yum_proxy_password: pro#kube1
+proxy_password: amu%40lky
+yum_proxy_password: amu@lky
 
 # Log Configuration
 td_run_as_user: postgres 
